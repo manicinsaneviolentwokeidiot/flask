@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+
+
+{% block content %}
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        var lists = '{{lists|tojson|safe}}'
+        var jsonLists = JSON.parse(lists);
+        console.log(jsonLists);
+        var htmlElement = document.getElementById("2");
+        console.log(htmlElement);
+        for (let i=0; i<jsonLists.length;i++){
+            console.log(jsonLists[i][0][1])
+            htmlElement.innerHTML+=getLinkHTML(jsonLists[i][0][1])
+        }
+    });
+    function getLinkHTML(text){
+        return `<button class="links">${text}</button>`
+    }
+</script>
+
+{% endblock %}

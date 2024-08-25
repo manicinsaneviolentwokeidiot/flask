@@ -20,9 +20,6 @@ create table if not exists movie_movielist
 );
 
 
-
-
-
 Insert INTO movie ("title", "watches") VALUES ('Freaky', 345286);
 Insert INTO movie ("title", "watches") VALUES ('The Adventures of Sharkboy and Lavagirl in 3-D', 135325);
 Insert INTO movie ("title", "watches") VALUES ('Cats', 532535);

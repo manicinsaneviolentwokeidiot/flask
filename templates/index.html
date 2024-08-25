@@ -6,13 +6,30 @@
         
     </head>
     <body>
+        <script>
+            async function scrapeList(){
+                console.log("aslfdk;ja;kdslfhladsk;fjk")
+                listurl = document.getElementById("7").value
+                try{
+                    const response = await fetch('/scraping', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({listurl})
+                    });
+                } catch (error){
+                    console.error("Error in sendScrapeData:", error);
+                }
+            }
+        </script>
         <div id="element">
 
         </div>
         <div class="main">
             <div class="sidebar">
-                <a href="/lists">
-                <button>test</button></a>
+                <input id="7" type ="text">
+                <button onclick="scrapeList()">scrape</button>
             </div>
             <div id="2" class="center">
 

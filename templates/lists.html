@@ -1,8 +1,8 @@
 {% extends "index.html" %}
 
-
 {% block content %}
 <script>
+
     document.addEventListener('DOMContentLoaded', function(){
         var lists = '{{lists|tojson|safe}}'
         var jsonLists = JSON.parse(lists);
@@ -11,11 +11,12 @@
         console.log(htmlElement);
         for (let i=0; i<jsonLists.length;i++){
             console.log(jsonLists[i][0][1])
-            htmlElement.innerHTML+=getLinkHTML(jsonLists[i][0][1])
+            htmlElement.innerHTML+=getLinkHTML(jsonLists[i][0][1],jsonLists[i][0][0])
         }
     });
-    function getLinkHTML(text){
-        return `<button class="links">${text}</button>`
+    function getLinkHTML(text,id){
+        console.log(id)
+        return `<button class="links" onclick="window.location.href='/list?id=${id}'">${text}</button>`
     }
 </script>
 

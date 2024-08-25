@@ -55,3 +55,18 @@ body{
     width: 100%;
     padding: 1%;
 }
+
+.title{
+    background-color: lightblue;
+    width: 700px;
+}
+
+.date{
+    background-color: lightblue;
+    width: 100px;
+}
+
+.watches{
+    background-color: lightblue;
+    width: 300px;
+}

@@ -2,31 +2,83 @@
 
 {% block content %}
     <script>
-       
         //var jsonLists = JSON.parse(currentList);
-        //document.addEventListener('DOMContentLoaded', function(){
-            //var lists = '{{lists|tojson|safe}}'
-            //var jsonLists = JSON.parse(lists);
-            //console.log(jsonLists);
-            //var htmlElement = document.getElementById("2");
-            //console.log(htmlElement);
-            //for (let i=0; i<jsonLists.length;i++){
-                //console.log(jsonLists[i][0][1])
-                //htmlElement.innerHTML+=getLinkHTML(jsonLists[i][0][1])
-            //}
-    //});
-    //function getLinkHTML(text){
-      //  return `<button class="links">${text}</button>`
-    //}
+        document.addEventListener('DOMContentLoaded', function(){
+            var lists = '{{list|tojson|safe}}'
+            var jsonLists = JSON.parse(lists);
+            console.log(jsonLists);
+            var htmlElement = document.getElementById("3");
+            console.log(htmlElement);
+
+            for (let i=0; i<jsonLists.movies.length;i++){
+                console.log(jsonLists.movies[i])
+                htmlElement.innerHTML+=getLinkHTML(jsonLists.movies[i])
+            }
+    });
+    function getLinkHTML(movie){
+        return `<tr>
+            <td class="title">
+                ${movie[2]}
+            </td>
+            <td class="date">
+                ${movie[1]}
+            </td>
+            <td class="watches">
+                ${movie[3]}
+            </td>
+        </tr>`
+    }
+
+    
+
+    async function sortList(){
+        try{
+            const response = await fetch('/sort?id='+getQueryParam("id"), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            });
+            const result = await response.json();
+            console.log(result);
+            var htmlElement = document.getElementById("3");
+            console.log(htmlElement.rows.length)
+
+            for (let i=0; i<htmlElement.rows.length+2;i++){
+
+                htmlElement.deleteRow(1)
+            }
+            for (let i=0; i<result.length;i++){
+                console.log(result[i])
+                htmlElement.innerHTML+=getLinkHTML(result[i])
+            }
+        } catch (error){
+            console.error("Error in sendSortData:", error);
+        }
+    }
+
+    function getQueryParam(param){
+        var urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
     </script>
-    <table>
+    <button onclick="sortList()">
+        Sort
+    </button>
+    <table id="3">
         <tr>
-            <th>
-                title
+            <th class="title">
+                Title
             </th>
-            <th>
-                watches
+            <th class="date">
+                Date
+            </th>
+            <th class="watches">
+                Watches
             </th>
         </tr>
+        
     </table>
 {% endblock %}

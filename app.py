@@ -31,11 +31,32 @@ def insert_list(movies):
         print(movies["url"])
 
         cursor.execute("""INSERT INTO movielist (title, url)
-VALUES ('bad boys', 'letterboxjd.com');""")
+                       VALUES (%s, %s)
+                       ON CONFLICT (url)
+                       DO UPDATE
+                       SET title = EXCLUDED.title
+                       RETURNING "movielistID";""", (movies["title"], movies["url"]))
+        
+        movie_list_id = cursor.fetchone()[0]
+        cursor.execute("""DELETE FROM movie_movielist WHERE "movielistID" = %s;""", (movie_list_id))
+        for movie in movies["movies"]:
+            cursor.execute("""INSERT INTO movie (title, watches)
+                           VALUES (%s, %s)
+                           ON CONFLICT (title)
+                           DO UPDATE
+                           SET watches = EXCLUDED.watches
+                           RETURNING "movieID";""", (movie.title, movie.watches))
+
+
+
+
+
+        conn.commit()
+
+
         
         
     except Exception as e:
-        print("qwoeruqopweiuroqyuerwp")
         conn.rollback()
         print(f"An error occurred: {e}")
     finally:
